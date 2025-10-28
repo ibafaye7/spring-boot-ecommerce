@@ -1,6 +1,7 @@
 package net.ifaye.ecommerce.config;
 
 import net.ifaye.ecommerce.entities.Product;
+import net.ifaye.ecommerce.entities.ProductCategory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
@@ -14,11 +15,18 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
 
         HttpMethod[] unSupportedMethods = {HttpMethod.POST,HttpMethod.PUT,HttpMethod.DELETE};
+
         config
                 .getExposureConfiguration()
                 .forDomainType(Product.class)
                 .withItemExposure(((metdata, httpMethods) -> httpMethods.disable(unSupportedMethods)))
                 .withCollectionExposure(((metdata, httpMethods) -> httpMethods.disable(unSupportedMethods)));
-        //RepositoryRestConfigurer.super.configureRepositoryRestConfiguration(config, cors);
+
+        config
+                .getExposureConfiguration()
+                .forDomainType(ProductCategory.class)
+                .withItemExposure(((metdata, httpMethods) -> httpMethods.disable(unSupportedMethods)))
+                .withCollectionExposure(((metdata, httpMethods) -> httpMethods.disable(unSupportedMethods)));
+
     }
 }
